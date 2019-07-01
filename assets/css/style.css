@@ -1,3 +1,20 @@
 h1 {
-    color: red;
+    color: white;
+}
+
+#p1-card{
+    color: white;
+}
+
+#p2-card{
+    color: white;
+}
+
+
+.card {
+    height: 300px;
+}
+
+.container {
+    padding: 0 20 0 20
 }

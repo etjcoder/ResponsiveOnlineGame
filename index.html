@@ -22,7 +22,82 @@
     <title>OnlineRPSGame</title>
 </head>
 <body>
-    <h1> Test Header </h1>
+    
+    <!-- Header announcing the type of game -->
+    <div class="jumbotron text-center bg-dark">
+
+        <h1> Online RPS Strategy Game!</h1>
+    </div>
+
+
+
+    <!-- Container for game -->
+
+    <div class="container bg-secondary">
+
+
+    <!-- Row -->
+    <div class="row">
+
+
+
+    <!-- Col 4 Player 1 -->
+    <div class="card col-4 bg-dark" id="p1-card">
+        <p>Player One logged in:<span id="p1-login"></span></p>
+        <br>
+        <br>
+        <p><span id="player-1-text"></span></p>
+        <br>
+        <br>
+        <p>Player One Choice:<span id="p1-choice"></span></p>
+        <img src="">
+    </div>
+    <!-- Col 4 Data Feed-->
+    <div class="card col-4 text-center">
+        <div class="card-body">
+          <h5 class="card-title">Data Feed</h5>
+          <p class="card-text"><span id="data-feed"></span></p>
+          <button id="clear-data-btn" class="btn btn-light" value=""><span>Clear</span></button>
+        </div>
+      </div>
+    <!-- Col 4 Player 2 -->
+    <div class="card col-4 bg-dark" id="p2-card">
+        <p>Player Two logged in:<span id="p2-login"></span></p>
+        <br>
+        <br>
+        <p><span id="player-2-text"></span></p>
+        <br>
+        <br>
+        <p>Player Two Choice:<span id="p2-choice"></span></p>
+        <img src="">
+    </div>
+
+    </div>
+
+    <!-- Row -->
+
+    <div class="row">
+    <!-- Col 6 Winner/Loser -->
+    <div class="card col-6 bg-info" id="win-card">
+        <p id="win-text"></p>
+    </div>
+    <!-- Col 6 Stats -->
+    <div class="card col-6 bg-info" id="stats-card">
+        <p>Player 1 Wins:<span id="player1-wins-text"></span></p>
+        <p>Player 2 Wins:<span id="player2-wins-text"></span></p>
+        <p>Player 1 Losses:<span id="player1-losses-text"></span></p>
+        <p>Player 2 Losses:<span id="player2-losses-text"></span></p>
+        <p>Player 1 Ties:<span id="player1-ties-text"></span></p>
+        <p>Player 2 Ties:<span id="player2-ties-text"></span></p>
+    </div>
+
+
+    </div>
+</div>
+
+
+
+
 
 
     <script src="assets/javascript/app.js"> </script>
