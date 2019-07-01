@@ -30,17 +30,13 @@ var yourTurn2 = "Your turn, player! Press A, B or C";
 
 ///
 
+
+
+
 function initializeValues() {
 
     $("#p1-login").text(" " + playerOneActive);
     $("#p2-login").text(" " + playerTwoActive);
-
-    $("#player1-wins-text").text(player1Wins);
-    $("#player2-wins-text").text(player2Wins);
-    $("#player1-losses-text").text(player1Losses);
-    $("#player2-losses-text").text(player2Losses);
-    $("#player1-ties-text").text(player1Wins);
-    $("#player2-ties-text").text(player1Wins);
 
     $("#player-1-text").text(yourTurn1);
     $("#player-2-text").text(pleaseWait);
@@ -50,7 +46,24 @@ function initializeValues() {
     console.log("Player one is up: " + playerOneTurn);
     console.log("Player two is up: " + playerTwoTurn);
 
+    updateScores();
 }
+
+
+function updateScores() {
+    console.log("The Scores have been updated")
+    $("#player1-wins-text").text(player1Wins);
+    $("#player2-wins-text").text(player2Wins);
+    $("#player1-losses-text").text(player1Losses);
+    $("#player2-losses-text").text(player2Losses);
+    $("#player1-ties-text").text(player1Ties);
+    $("#player2-ties-text").text(player2Ties);
+    playerOneTurn = true;
+    $("#player-1-text").text(yourTurn1);
+    return playerOneTurn;
+
+    };
+
 
 document.onkeyup = function (event) {
 
@@ -67,21 +80,73 @@ document.onkeyup = function (event) {
                     playerTwoTurn = true;
                     console.log("Player one has chosen:" + playerOneOption);
                     console.log("Player one is up:" + playerOneTurn);
+                    $("#player-1-text").text(pleaseWait);
+                    $("#player-2-text").text(yourTurn2);
                 }
             } else {
-                if((userGuess === "a") || (userGuess === "b") || (userGuess === "c")) {
-                playerTwoOption = userGuess;
-                playerTwoTurn = false;
-                console.log("Player two has chosen:" + playerTwoOption)
-                console.log("Player two is up:" + playerTwoTurn)
+                if ((userGuess === "a") || (userGuess === "b") || (userGuess === "c")) {
+                    playerTwoOption = userGuess;
+                    playerTwoTurn = false;
+                    console.log("Player two has chosen:" + playerTwoOption)
+                    console.log("Player two is up:" + playerTwoTurn)
+                    $("#player-2-text").text(pleaseWait);
+                    runGame();
+                }
             }
-        }
-    
+
         }
 
+    }
 }
-}
-//// CREATE FUNCTIONS ///////
+
+//x is rock //y is paper //z is scissors
+//a is rock //b is paper //c is scissors
+//x beats c // y beats a // z beats b 
+//a beats z // b beats x // c beats y
+
+
+function runGame() {
+    console.log("runGame function has successfully been ran!")
+    if ((playerOneTurn === false) && (playerTwoTurn === false)) {
+        if (
+            ((playerOneOption === "x") && (playerTwoOption === "c")) ||
+            ((playerOneOption === "y") && (playerTwoOption === "a")) ||
+            ((playerOneOption === "z") && (playerTwoOption === "b"))
+        ) {
+                player1Wins++;
+                player2Losses++;
+                console.log("----------------")
+                console.log("Player One Wins!")
+                console.log("Player One Has won " + player1Wins + " Times!")
+                console.log("Player Two Has lost " + player2Losses + " Times!")
+                // PlayerOneTurn = true;
+                updateScores();
+        } else if (
+            ((playerTwoOption === "a") && (playerOneOption === "z")) ||
+            ((playerTwoOption === "b") && (playerOneOption === "x")) ||
+            ((playerTwoOption === "c") && (playerOneOption === "y"))
+        ) {
+                player2Wins++;
+                player1Losses++;
+                console.log("----------------");
+                console.log("Player Two Wins!");
+                console.log("Player Two Has won " + player2Wins + " Times!");
+                console.log("Player One Has lost " + player1Losses + " Times!");
+                // playerOneTurn = true;
+                updateScores();
+        } else {
+                player1Ties++;
+                player2Ties++;
+                console.log("----------------")
+                console.log("Both Players have Tied!")
+                console.log("Player One Has tied " + player1Ties + " Times!");
+                console.log("Player Two Has Tied " + player2Ties + " Times!");
+                // playerOneTurn = true;
+                updateScores();
+        }
+    }
+};
+// //// CREATE FUNCTIONS ///////
 
 //player1 options will be x, y, z
 //player2 options will be a, b, c
