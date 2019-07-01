@@ -64,6 +64,30 @@ function updateScores() {
 
     };
 
+function displayOption1() {
+    if (playerOneOption === "x"){
+        $("#winning-choice").text("Player 1 Won with Rock!")
+    }
+    else if (playerOneOption === "y") {
+        $("#winning-choice").text("Player 1 Won with Paper!")
+    } 
+    else if (playerOneOption === "z") {
+        $("#winning-choice").text("Player 1 Won with Scissors!")
+    }
+};
+
+function displayOption2() {
+    if (playerTwoOption === "a") {
+        $("#winning-choice").text("Player 2 Won with Rock!")
+    } 
+    else if (playerTwoOption === "b") {
+        $("#winning-choice").text("Player 2 Won with Paper!")
+    } else if (playerTwoOption === "c") {
+        $("#winning-choice").text("Player 2 Won with Scissors!")
+    }
+}
+
+
 
 document.onkeyup = function (event) {
 
@@ -82,6 +106,8 @@ document.onkeyup = function (event) {
                     console.log("Player one is up:" + playerOneTurn);
                     $("#player-1-text").text(pleaseWait);
                     $("#player-2-text").text(yourTurn2);
+                    $("#winning-choice").text("");
+                    $("#rps-result").text("");
                 }
             } else {
                 if ((userGuess === "a") || (userGuess === "b") || (userGuess === "c")) {
@@ -121,6 +147,11 @@ function runGame() {
                 console.log("Player Two Has lost " + player2Losses + " Times!")
                 // PlayerOneTurn = true;
                 updateScores();
+                displayOption1();
+                $("#rps-result").text("Player 1 Wins")
+
+
+
         } else if (
             ((playerTwoOption === "a") && (playerOneOption === "z")) ||
             ((playerTwoOption === "b") && (playerOneOption === "x")) ||
@@ -134,6 +165,8 @@ function runGame() {
                 console.log("Player One Has lost " + player1Losses + " Times!");
                 // playerOneTurn = true;
                 updateScores();
+                displayOption2();
+                $("#rps-result").text("Player 2 Wins!")
         } else {
                 player1Ties++;
                 player2Ties++;
@@ -143,6 +176,7 @@ function runGame() {
                 console.log("Player Two Has Tied " + player2Ties + " Times!");
                 // playerOneTurn = true;
                 updateScores();
+                $("#rps-result").text("Both Players have tied!")
         }
     }
 };
