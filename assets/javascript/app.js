@@ -76,32 +76,19 @@ connectionsRef.on("value", function(snap) {
         //This is really just a placeholder event listener for when we need to build out functions ofr the user
         console.log(snap.numChildren());
         if (snap.numChildren() === 1) {
-            console.log("Player 1 has entered the game!" + "<br>");
             $("#data-feed").append("One player is in the lobby!" + "<br>")
             playerOneActive = true;
         } else if (snap.numChildren() === 2 ) {
-            console.log("Player 2 has entered the game!")
             $("#data-feed").append("Two players are in the lobby!" + "<br>")
             $("#data-feed").append("You are ready to play!" + "<br>");
             playerOneActive = true;
             playerTwoActive = true;
         } else {
-            console.log("Too many players in the game!")
+            console.log("Too many players in the game!");
+            playerOneActive = false;
+            playerTwoActive = false;
         }
 });
-
-//=================Firebase Connectivity Test
-var clickCounter = 0;
-
-$("#click-button").on("click", function () {
-    clickCounter++;
-    database.ref().set({
-        clickCount: clickCounter,
-    });
-
-});
-
-
 //=======================================================
 function initializeValues() {
 
@@ -250,6 +237,23 @@ function runGame() {
         }
     }
 };
+
+//NEXT STEPS
+
+// Create a Chat Box
+// Sync users to an Authenticator
+// Apply the text saying "Player 1/Player2 has entered/exited" to say "Username1/Username2 has entered/exited"
+// Make it so that the users can press the same keys
+
+
+
+
+
+
+
+
+
+
 // //// CREATE FUNCTIONS ///////
 
 //player1 options will be x, y, z
