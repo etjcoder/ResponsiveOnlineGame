@@ -3,8 +3,8 @@ console.log("The javascript is linked")
 
 
 ///// CREATE VARIABLES /////
-var playerOneActive = true;
-var playerTwoActive = true;
+var playerOneActive = false;
+var playerTwoActive = false;
 ///
 var playerOneTurn = true;
 var playerTwoTurn = false;
@@ -30,9 +30,79 @@ var yourTurn2 = "Your turn, player! Press A, B or C";
 
 ///
 
+// Initialize Firebase
+// This is the code we copied and pasted from our app page
+var firebaseConfig = {
+    apiKey: 'AIzaSyAgc85qULigTIbF658xdHmrHrlIt33YVCc',
+    authDomain: 'evanRPSonlineproject.firebaseapp.com',
+    databaseURL: 'https://evanRPSonlineproject.firebaseio.com',
+    projectId: 'evanRPSonlineproject',
+    storageBucket: '',
+    // messagingSenderId: '893336609914',
+    // appId: '1:893336609914:web:21a305b4f0cd4746',
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// Variables
+// ================================================================================
+
+// Get a reference to the database service
+var database = firebase.database();
+
+// This creates a reference location where we will store connections
+var connectionsRef = database.ref("/connections");
+
+//'.info/connected' is a firebase special location that is updated whenever the client connection state changes, it is a boolean value
+var connectedRef = database.ref(".info/connected");
+
+// When there is a value change in info/connected aka connectedRef
+connectedRef.on("value", function(snap) {
+
+// If they are connected
+if (snap.val()) {
+    //add User to connections list
+    var con = connectionsRef.push(true);
+    //remove User from connections list when logged off
+    con.onDisconnect().remove();
+    
+}
+
+});
+
+connectionsRef.on("value", function(snap) {
+    
+        // Display viewer count in the console log
+        //This is really just a placeholder event listener for when we need to build out functions ofr the user
+        console.log(snap.numChildren());
+        if (snap.numChildren() === 1) {
+            console.log("Player 1 has entered the game!" + "<br>");
+            $("#data-feed").append("One player is in the lobby!" + "<br>")
+            playerOneActive = true;
+        } else if (snap.numChildren() === 2 ) {
+            console.log("Player 2 has entered the game!")
+            $("#data-feed").append("Two players are in the lobby!" + "<br>")
+            $("#data-feed").append("You are ready to play!" + "<br>");
+            playerOneActive = true;
+            playerTwoActive = true;
+        } else {
+            console.log("Too many players in the game!")
+        }
+});
+
+//=================Firebase Connectivity Test
+var clickCounter = 0;
+
+$("#click-button").on("click", function () {
+    clickCounter++;
+    database.ref().set({
+        clickCount: clickCounter,
+    });
+
+});
 
 
-
+//=======================================================
 function initializeValues() {
 
     $("#p1-login").text(" " + playerOneActive);
@@ -62,15 +132,15 @@ function updateScores() {
     $("#player-1-text").text(yourTurn1);
     return playerOneTurn;
 
-    };
+};
 
 function displayOption1() {
-    if (playerOneOption === "x"){
+    if (playerOneOption === "x") {
         $("#winning-choice").text("Player 1 Won with Rock!")
     }
     else if (playerOneOption === "y") {
         $("#winning-choice").text("Player 1 Won with Paper!")
-    } 
+    }
     else if (playerOneOption === "z") {
         $("#winning-choice").text("Player 1 Won with Scissors!")
     }
@@ -79,7 +149,7 @@ function displayOption1() {
 function displayOption2() {
     if (playerTwoOption === "a") {
         $("#winning-choice").text("Player 2 Won with Rock!")
-    } 
+    }
     else if (playerTwoOption === "b") {
         $("#winning-choice").text("Player 2 Won with Paper!")
     } else if (playerTwoOption === "c") {
@@ -139,16 +209,16 @@ function runGame() {
             ((playerOneOption === "y") && (playerTwoOption === "a")) ||
             ((playerOneOption === "z") && (playerTwoOption === "b"))
         ) {
-                player1Wins++;
-                player2Losses++;
-                console.log("----------------")
-                console.log("Player One Wins!")
-                console.log("Player One Has won " + player1Wins + " Times!")
-                console.log("Player Two Has lost " + player2Losses + " Times!")
-                // PlayerOneTurn = true;
-                updateScores();
-                displayOption1();
-                $("#rps-result").text("Player 1 Wins")
+            player1Wins++;
+            player2Losses++;
+            console.log("----------------")
+            console.log("Player One Wins!")
+            console.log("Player One Has won " + player1Wins + " Times!")
+            console.log("Player Two Has lost " + player2Losses + " Times!")
+            // PlayerOneTurn = true;
+            updateScores();
+            displayOption1();
+            $("#rps-result").text("Player 1 Wins")
 
 
 
@@ -157,26 +227,26 @@ function runGame() {
             ((playerTwoOption === "b") && (playerOneOption === "x")) ||
             ((playerTwoOption === "c") && (playerOneOption === "y"))
         ) {
-                player2Wins++;
-                player1Losses++;
-                console.log("----------------");
-                console.log("Player Two Wins!");
-                console.log("Player Two Has won " + player2Wins + " Times!");
-                console.log("Player One Has lost " + player1Losses + " Times!");
-                // playerOneTurn = true;
-                updateScores();
-                displayOption2();
-                $("#rps-result").text("Player 2 Wins!")
+            player2Wins++;
+            player1Losses++;
+            console.log("----------------");
+            console.log("Player Two Wins!");
+            console.log("Player Two Has won " + player2Wins + " Times!");
+            console.log("Player One Has lost " + player1Losses + " Times!");
+            // playerOneTurn = true;
+            updateScores();
+            displayOption2();
+            $("#rps-result").text("Player 2 Wins!")
         } else {
-                player1Ties++;
-                player2Ties++;
-                console.log("----------------")
-                console.log("Both Players have Tied!")
-                console.log("Player One Has tied " + player1Ties + " Times!");
-                console.log("Player Two Has Tied " + player2Ties + " Times!");
-                // playerOneTurn = true;
-                updateScores();
-                $("#rps-result").text("Both Players have tied!")
+            player1Ties++;
+            player2Ties++;
+            console.log("----------------")
+            console.log("Both Players have Tied!")
+            console.log("Player One Has tied " + player1Ties + " Times!");
+            console.log("Player Two Has Tied " + player2Ties + " Times!");
+            // playerOneTurn = true;
+            updateScores();
+            $("#rps-result").text("Both Players have tied!")
         }
     }
 };

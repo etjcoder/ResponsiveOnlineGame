@@ -18,3 +18,12 @@ h1 {
 .container {
     padding: 0 20 0 20
 }
+
+#data-box {
+    padding: 0;
+    width: 100%;
+    font-size: 9px;
+    background: gray;
+    height: 180px;
+    color: white;
+}

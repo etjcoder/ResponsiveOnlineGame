@@ -19,6 +19,13 @@
 
     <link rel="stylesheet" href="assets/css/style.css">
 
+    
+    <!-- Firebase Core JavaScript Link -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+
+    <!-- Specific Firebase products we want -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+
 
     <title>OnlineRPSGame</title>
 </head>
@@ -77,8 +84,9 @@
             <div class="card col-4 text-center">
                 <div class="card-body">
                     <h5 class="card-title">Data Feed</h5>
-                    <p class="card-text"><span id="data-feed"></span></p>
+                    <p class="card-text" id="data-box"><span id="data-feed"></span></p>
                     <button id="clear-data-btn" class="btn btn-light" value=""><span>Clear</span></button>
+                    <button class="btn btn-light" id="click-button">Click Me!!!!</button>
                 </div>
             </div>
             <!-- Col 4 Player 2 -->
@@ -121,7 +129,7 @@
     </div>
 
 
-
+    
 
 
 
