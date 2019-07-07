@@ -25,6 +25,9 @@
 
     <!-- Specific Firebase products we want -->
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-database.js"></script> -->
 
 
     <title>OnlineRPSGame</title>
@@ -57,6 +60,13 @@
         </div>
     </div>
 
+    <div class="container">
+        <input id="txtEmail" type="email" placeholder="Email">
+        <input id="txtPassword" type="password" placeholder="Password">
+        <button id="btnLogin" class="btn btn-action">Log In</button>
+        <button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
+        <button id="btnLogout" class="btn btn-action d-hide"> Log Out</button>
+    </div>
 
 
     <!-- Container for game -->

@@ -33,7 +33,7 @@ var yourTurn2 = "Your turn, player! Press A, B or C";
 // Initialize Firebase
 // This is the code we copied and pasted from our app page
 var firebaseConfig = {
-    apiKey: 'AIzaSyAgc85qULigTIbF658xdHmrHrlIt33YVCc',
+    apiKey: 'AIzaSyDU1ZW-gZ0piJWBDmZT5dEhVeB-v5P5w0A',
     authDomain: 'evanRPSonlineproject.firebaseapp.com',
     databaseURL: 'https://evanRPSonlineproject.firebaseio.com',
     projectId: 'evanRPSonlineproject',
@@ -44,9 +44,10 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// Variables
-// ================================================================================
 
+// ================================================================================
+// Assigning database variable as well as connections child folder and connections tracker aka .info/connect
+// ================================================================================
 // Get a reference to the database service
 var database = firebase.database();
 
@@ -70,6 +71,71 @@ if (snap.val()) {
 
 });
 
+// ========================================================================
+// Firebase Authentication code
+// ========================================================================
+
+// var auth = firebase.auth();
+// 
+//This will sign in an existing user and return a promise you can use to resolve that user
+// auth.signInWithEmailAndPassword(email, pass); 
+
+//This will create a user with an email and password.
+// auth.createUserWithEmailAndPassword(email, pass);
+
+//If someone logs in this firebaseUser paramater will be filled, but if the user logs out it will show as null
+// auth.onAuthStateChanged(firebaseUser => {});
+
+//Getting Elements
+var txtEmail = document.getElementById("txtEmail");
+var txtPassword = document.getElementById("txtPassword");
+var btnLogin = document.getElementById("btnLogin");
+var btnSignUp = document.getElementById("btnSignUp");
+var btnLogout = document.getElementById("btnLogout");
+ 
+//Add Login Event
+btnLogin.addEventListener('click', e=> {
+     //Get email and password from user inputs
+     var email = txtEmail.value;
+     var pass = txtPassword.value;
+     var auth = firebase.auth();
+     //Sign In 
+     var promise = auth.signInWithEmailAndPassword(email, pass);
+     promise.catch(e => console.log(e.message));
+
+})
+
+//Sign up a new user
+btnSignUp.addEventListener('click', e => {
+    //Get email and password from user inputs
+    //TODO: Check 4 Real Emailz
+    var email = txtEmail.value;
+     var pass = txtPassword.value;
+     var auth = firebase.auth();
+     //Create User
+     var promise = auth.createUserWithEmailAndPassword(email, pass);
+     promise.catch(e => console.log(e.message));
+})
+
+//Logout function
+btnLogout.addEventListener('click', e => {
+    firebase.auth().signOut();
+})
+
+
+//Add a realtime listener for authentication
+firebase.auth().onAuthStateChanged(firebaseUser => {
+    if(firebaseUser) {
+        console.log(firebaseUser);
+    } else {
+        console.log("not logged in")
+    }
+})
+
+
+
+//==================================================================
+
 connectionsRef.on("value", function(snap) {
     
         // Display viewer count in the console log
@@ -78,15 +144,24 @@ connectionsRef.on("value", function(snap) {
         if (snap.numChildren() === 1) {
             $("#data-feed").append("One player is in the lobby!" + "<br>")
             playerOneActive = true;
+            
+    $("#p1-login").text(" " + playerOneActive);
+    $("#p2-login").text(" " + playerTwoActive);
         } else if (snap.numChildren() === 2 ) {
             $("#data-feed").append("Two players are in the lobby!" + "<br>")
             $("#data-feed").append("You are ready to play!" + "<br>");
             playerOneActive = true;
             playerTwoActive = true;
+            
+    $("#p1-login").text(" " + playerOneActive);
+    $("#p2-login").text(" " + playerTwoActive);
         } else {
             console.log("Too many players in the game!");
             playerOneActive = false;
             playerTwoActive = false;
+            
+    $("#p1-login").text(" " + playerOneActive);
+    $("#p2-login").text(" " + playerTwoActive);
         }
 });
 //=======================================================
