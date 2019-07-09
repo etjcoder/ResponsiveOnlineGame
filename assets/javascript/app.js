@@ -1,6 +1,6 @@
 console.log("The javascript is linked")
 
-
+document.addEventListener("DOMContentLoaded", event => {
 
 ///// CREATE VARIABLES /////
 var playerOneActive = false;
@@ -75,8 +75,25 @@ if (snap.val()) {
 // Firebase Authentication code
 // ========================================================================
 
-// var auth = firebase.auth();
-// 
+var auth = firebase.auth();
+var user = firebase.auth().currentUser;
+console.log(auth);
+console.log(user);
+
+
+// user.updateProfile({
+//     displayName: "Evan J. Cleary",
+// }).then(function(){
+//     console.log("Update successful")
+// }).catch(function(){
+//     console.log("There was an error");
+// });
+
+
+// console.log(user.displayName);
+// $("#display-name").text(user.displayName);
+
+//
 //This will sign in an existing user and return a promise you can use to resolve that user
 // auth.signInWithEmailAndPassword(email, pass); 
 
@@ -92,18 +109,38 @@ var txtPassword = document.getElementById("txtPassword");
 var btnLogin = document.getElementById("btnLogin");
 var btnSignUp = document.getElementById("btnSignUp");
 var btnLogout = document.getElementById("btnLogout");
+var googleLogin = document.getElementById("googleLogin");
  
 //Add Login Event
 btnLogin.addEventListener('click', e=> {
      //Get email and password from user inputs
-     var email = txtEmail.value;
-     var pass = txtPassword.value;
-     var auth = firebase.auth();
-     //Sign In 
-     var promise = auth.signInWithEmailAndPassword(email, pass);
-     promise.catch(e => console.log(e.message));
+         var email = txtEmail.value;
+         var pass = txtPassword.value;
+         var auth = firebase.auth();
+    //Sign In 
+          var promise = auth.signInWithEmailAndPassword(email, pass);
+         promise.catch(e => console.log(e.message));
+
 
 })
+
+googleLogin.addEventListener('click', e=> {
+    function googleLogin() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+    
+        firebase.auth().signInWithPopup(provider)
+        .then(result => {
+            var user = result.user;
+            console.log(`Hello ${user.displayName}`);
+            console.log(user)
+        }).catch(console.log)
+    }
+    googleLogin();
+    
+    
+})
+
+
 
 //Sign up a new user
 btnSignUp.addEventListener('click', e => {
@@ -111,10 +148,28 @@ btnSignUp.addEventListener('click', e => {
     //TODO: Check 4 Real Emailz
     var email = txtEmail.value;
      var pass = txtPassword.value;
-     var auth = firebase.auth();
+    //  var auth = firebase.auth();
      //Create User
-     var promise = auth.createUserWithEmailAndPassword(email, pass);
-     promise.catch(e => console.log(e.message));
+     firebase.auth().createUserWithEmailAndPassword(email, pass)
+     .then(
+         (user) => {
+         user.updateProfile({
+             displayName: "Evan Cleary"
+         
+            }).then(
+                (s)=> {console.log(displayName)}
+            ).
+            
+            catch(function(error) {
+             console.log(error);
+         })
+     })
+
+
+
+
+
+    //  promise.catch(e => console.log(e.message));
 })
 
 //Logout function
@@ -122,15 +177,29 @@ btnLogout.addEventListener('click', e => {
     firebase.auth().signOut();
 })
 
-
+// console.log(user.displayName);
 //Add a realtime listener for authentication
-firebase.auth().onAuthStateChanged(firebaseUser => {
-    if(firebaseUser) {
-        console.log(firebaseUser);
+// firebase.auth().onAuthStateChanged(firebaseUser => {
+//     if(firebaseUser) {
+//         console.log(firebaseUser);
+//     } else {
+//         console.log("not logged in")
+//     }
+// })
+
+//Setting an authentication state observer and getting user data
+firebase.auth().onAuthStateChanged(function(user) {
+    if(user) {
+        console.log("User is signed in");
+        console.log(user);
+        var displayName = user.displayName;
+        var email = user.email;
+        var uid = user.uid;
+        var providerData = user.providerData;
     } else {
-        console.log("not logged in")
+        console.log("User is signed out")
     }
-})
+});
 
 
 
@@ -364,3 +433,4 @@ function runGame() {
 //This will be a test of the firebase initializer
 
 initializeValues();
+});
